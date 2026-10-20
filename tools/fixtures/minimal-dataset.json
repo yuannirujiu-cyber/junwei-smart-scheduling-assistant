@@ -1,0 +1,205 @@
+{
+  "meta": {
+    "id": "minimal-demo",
+    "name": "最小示例数据集（拉丝 → 捻股 → 合绳，4 张虚构订单）",
+    "source": [
+      "用于 docs/DATA_CONTRACT.md 与自检的最小虚构数据"
+    ],
+    "generatedAt": "2026-11-01T00:00:00",
+    "orderCount": 4,
+    "note": "接自己的数据只需要 machines / capacity / orders 三张表；processMap 让规格不靠猜测",
+    "issues": []
+  },
+  "orders": [
+    {
+      "id": "MIN-2026-0001",
+      "productName": "光面圆股钢丝绳",
+      "spec": "12mm 6*19S+FC",
+      "qtyMeters": 800,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-11-01",
+      "preShipDate": "2026-12-01",
+      "endCode": "未结束",
+      "priority": "重点客户",
+      "duePolicy": "hard",
+      "graceHours": 0,
+      "processMap": {
+        "closingSpec": "12mm 6*19S+FC",
+        "closingName": "光面圆股钢丝绳",
+        "strandName": "光面股0064 1*7 B1",
+        "strandSpec": "0.64",
+        "wireSpecMm": 0.12,
+        "status": "confirmed"
+      }
+    },
+    {
+      "id": "MIN-2026-0002",
+      "productName": "光面圆股钢丝绳",
+      "spec": "16mm 6*19S+FC",
+      "qtyMeters": 600,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-11-02",
+      "preShipDate": "2026-12-05",
+      "endCode": "未结束",
+      "priority": "普通",
+      "duePolicy": "soft",
+      "graceHours": 72,
+      "processMap": {
+        "closingSpec": "16mm 6*19S+FC",
+        "closingName": "光面圆股钢丝绳",
+        "strandName": "光面股0090 1*19 B1",
+        "strandSpec": "0.9",
+        "wireSpecMm": 0.15,
+        "status": "confirmed"
+      }
+    },
+    {
+      "id": "MIN-2026-0003",
+      "productName": "光面圆股钢丝绳",
+      "spec": "12mm 6*19S+FC",
+      "qtyMeters": 1000,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-11-03",
+      "preShipDate": "2026-11-25",
+      "endCode": "未结束",
+      "priority": "紧急",
+      "duePolicy": "hard",
+      "graceHours": 0,
+      "processMap": {
+        "closingSpec": "12mm 6*19S+FC",
+        "closingName": "光面圆股钢丝绳",
+        "strandName": "光面股0064 1*7 B1",
+        "strandSpec": "0.64",
+        "wireSpecMm": 0.12,
+        "status": "confirmed"
+      }
+    },
+    {
+      "id": "MIN-2026-0004",
+      "productName": "光面圆股钢丝绳",
+      "spec": "16mm 6*19S+FC",
+      "qtyMeters": 400,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-11-04",
+      "preShipDate": "2026-12-10",
+      "endCode": "未结束",
+      "priority": "重点订单",
+      "duePolicy": "unknown",
+      "graceHours": 0,
+      "processMap": {
+        "closingSpec": "16mm 6*19S+FC",
+        "closingName": "光面圆股钢丝绳",
+        "strandName": "光面股0090 1*19 B1",
+        "strandSpec": "0.9",
+        "wireSpecMm": 0.15,
+        "status": "confirmed"
+      }
+    }
+  ],
+  "machines": {
+    "drawing": [
+      {
+        "id": "D01",
+        "name": "1号拉丝机",
+        "type": "湿拉机",
+        "specRangeRaw": "0.08-0.25",
+        "specMin": 0.08,
+        "specMax": 0.25,
+        "speedMps": 8
+      },
+      {
+        "id": "D02",
+        "name": "2号拉丝机",
+        "type": "湿拉机",
+        "specRangeRaw": "0.20-0.60",
+        "specMin": 0.2,
+        "specMax": 0.6,
+        "speedMps": 6
+      }
+    ],
+    "stranding": [
+      {
+        "id": "S01",
+        "name": "1号捻股机"
+      },
+      {
+        "id": "S02",
+        "name": "2号捻股机"
+      }
+    ],
+    "closing": [
+      {
+        "id": "C01",
+        "name": "1号合绳机"
+      },
+      {
+        "id": "C02",
+        "name": "2号合绳机"
+      }
+    ]
+  },
+  "capacity": {
+    "stranding": {
+      "model": "值 = 行捻距均值 × 设备系数",
+      "unit": "米/分",
+      "machineIds": [
+        "S01",
+        "S02"
+      ],
+      "coefficients": [
+        1,
+        0.85
+      ],
+      "rows": [
+        {
+          "name": "光面股0064 1*7 B1",
+          "spec": "0.64",
+          "torsion": 20
+        },
+        {
+          "name": "光面股0090 1*19 B1",
+          "spec": "0.9",
+          "torsion": 16
+        }
+      ]
+    },
+    "closing": {
+      "model": "显式额定（平均值）",
+      "unit": "米/分",
+      "machineIds": [
+        "C01",
+        "C02"
+      ],
+      "rows": [
+        {
+          "name": "光面圆股钢丝绳",
+          "spec": "12mm 6*19S+FC",
+          "rates": [
+            10,
+            8
+          ]
+        },
+        {
+          "name": "光面圆股钢丝绳",
+          "spec": "16mm 6*19S+FC",
+          "rates": [
+            7,
+            5
+          ]
+        }
+      ]
+    }
+  },
+  "specIndex": {
+    "closingKeys": [
+      "12|6*19S+FC",
+      "16|6*19S+FC"
+    ],
+    "orderMatchStats": {
+      "total": 4,
+      "matched": 4,
+      "multi": 0,
+      "missing": 0
+    }
+  }
+}

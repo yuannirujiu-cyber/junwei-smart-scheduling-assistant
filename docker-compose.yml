@@ -1,0 +1,44 @@
+# 君威智能排产助手 · 单机容器编排示例
+#   启动：docker compose up -d --build
+#   查看：docker compose ps && curl -s http://127.0.0.1:5178/healthz
+#   停止：docker compose down
+services:
+  jw-scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jw-scheduler-static:1.0.0
+    container_name: jw-scheduler
+    restart: unless-stopped
+    ports:
+      - "5178:5178"
+    environment:
+      NODE_ENV: production
+      PORT: "5178"
+      HOST: 0.0.0.0
+      ROOT: /app
+      READ_ONLY: "true"          # 只读分发：写方法一律 405
+      MAX_AGE: "3600"            # 图片 / 字体强缓存秒数
+      COMPRESS: "on"             # gzip + brotli 协商压缩
+      LOG_FORMAT: json           # 结构化访问日志，便于采集
+      LOG_LEVEL: info
+      SLOW_MS: "1000"            # 超过 1s 的请求在日志里标记 slow:true
+    volumes:
+      # 数据快照只读挂载：容器进程在文件系统层面也无法改写 data/
+      - ./data:/app/data:ro
+    read_only: true              # 容器根文件系统只读
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "node", "-e", "const p=Number(process.env.PORT||5178);require('node:http').get({host:'127.0.0.1',port:p,path:'/healthz',timeout:2500},r=>{r.resume();process.exit(r.statusCode===200?0:1)}).on('error',()=>process.exit(1)).on('timeout',function(){this.destroy();process.exit(1)})"]
+      interval: 30s
+      timeout: 3s
+      start_period: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 256M

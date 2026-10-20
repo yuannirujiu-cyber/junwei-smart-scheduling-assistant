@@ -1,0 +1,192 @@
+{
+  "meta": {
+    "id": "dispatch-case-7",
+    "name": "§11-7 两个紧急订单争抢同一未来设备：预约不重复，抢不到的进风险清单",
+    "source": [
+      "《三工序排产算法设计》§11 小规模测试的最小虚构夹具"
+    ],
+    "generatedAt": "2026-01-01T00:00:00",
+    "orderCount": 3,
+    "note": "D01 配置 K7-C（原料 0.4）00:00 空闲；D02 配置 K7-D1（原料 0.5）00:10 空闲，是唯一能省换型的未来设备。K7-D1（交期 11:00）与 K7-D2（交期 11:20）都紧急：D02 只能预约给一个订单，另一个必然延期并须记入风险清单。 机台初始状态（free_time / current_family）由 tools/check_dispatch.mjs 用 orderId=「__BG__」的预置锁定任务设置，见 §2.2 的设备字段定义。",
+    "issues": []
+  },
+  "orders": [
+    {
+      "id": "K7-C",
+      "productName": "光面圆股钢丝绳",
+      "spec": "12mm 6*7+FC",
+      "qtyMeters": 60,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-01-05",
+      "preShipDate": "2026-01-05T15:00",
+      "endCode": "未结束",
+      "priority": "普通",
+      "duePolicy": "hard",
+      "graceHours": 0,
+      "processMap": {
+        "closingSpec": "12mm 6*7+FC",
+        "closingName": "光面圆股钢丝绳",
+        "strandName": "光面股0040 1*7 B1",
+        "strandSpec": "0.40",
+        "wireSpecMm": 0.4,
+        "status": "confirmed"
+      }
+    },
+    {
+      "id": "K7-D1",
+      "productName": "光面圆股钢丝绳",
+      "spec": "12mm 6*7+FC",
+      "qtyMeters": 60,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-01-05",
+      "preShipDate": "2026-01-05T11:00",
+      "endCode": "未结束",
+      "priority": "紧急",
+      "duePolicy": "hard",
+      "graceHours": 0,
+      "processMap": {
+        "closingSpec": "12mm 6*7+FC",
+        "closingName": "光面圆股钢丝绳",
+        "strandName": "光面股0050 1*7 B1",
+        "strandSpec": "0.50",
+        "wireSpecMm": 0.5,
+        "status": "confirmed"
+      }
+    },
+    {
+      "id": "K7-D2",
+      "productName": "光面圆股钢丝绳",
+      "spec": "12mm 6*7+FC",
+      "qtyMeters": 60,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-01-05",
+      "preShipDate": "2026-01-05T11:20",
+      "endCode": "未结束",
+      "priority": "紧急",
+      "duePolicy": "hard",
+      "graceHours": 0,
+      "processMap": {
+        "closingSpec": "12mm 6*7+FC",
+        "closingName": "光面圆股钢丝绳",
+        "strandName": "光面股0060 1*7 B1",
+        "strandSpec": "0.60",
+        "wireSpecMm": 0.6,
+        "status": "confirmed"
+      }
+    }
+  ],
+  "machines": {
+    "drawing": [
+      {
+        "id": "D01",
+        "name": "D01拉丝机",
+        "type": "湿拉机",
+        "specRangeRaw": "0.2-0.8",
+        "specMin": 0.2,
+        "specMax": 0.8,
+        "speedMps": 0.1
+      },
+      {
+        "id": "D02",
+        "name": "D02拉丝机",
+        "type": "湿拉机",
+        "specRangeRaw": "0.2-0.8",
+        "specMin": 0.2,
+        "specMax": 0.8,
+        "speedMps": 0.1
+      }
+    ],
+    "stranding": [
+      {
+        "id": "S01",
+        "name": "S01捻股机"
+      },
+      {
+        "id": "S02",
+        "name": "S02捻股机"
+      }
+    ],
+    "closing": [
+      {
+        "id": "C01",
+        "name": "C01合绳机"
+      },
+      {
+        "id": "C02",
+        "name": "C02合绳机"
+      }
+    ]
+  },
+  "capacity": {
+    "stranding": {
+      "model": "显式额定",
+      "unit": "米/分",
+      "machineIds": [
+        "S01",
+        "S02"
+      ],
+      "coefficients": [
+        1,
+        1
+      ],
+      "rows": [
+        {
+          "name": "光面股0040 1*7 B1",
+          "spec": "0.40",
+          "torsion": 10,
+          "rates": [
+            10,
+            10
+          ]
+        },
+        {
+          "name": "光面股0050 1*7 B1",
+          "spec": "0.50",
+          "torsion": 10,
+          "rates": [
+            10,
+            10
+          ]
+        },
+        {
+          "name": "光面股0060 1*7 B1",
+          "spec": "0.60",
+          "torsion": 10,
+          "rates": [
+            10,
+            10
+          ]
+        }
+      ]
+    },
+    "closing": {
+      "model": "显式额定",
+      "unit": "米/分",
+      "machineIds": [
+        "C01",
+        "C02"
+      ],
+      "rows": [
+        {
+          "name": "光面圆股钢丝绳",
+          "spec": "12mm 6*7+FC",
+          "rates": [
+            10,
+            10
+          ]
+        }
+      ]
+    }
+  },
+  "specIndex": {
+    "closingKeys": [
+      "12|6*7+FC"
+    ],
+    "orderMatchStats": {
+      "total": 3,
+      "matched": 3,
+      "multi": 0,
+      "missing": 0
+    }
+  }
+}

@@ -1,0 +1,13 @@
+# Local previews and generated QA artifacts
+运行说明预览/
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+
+# Logs and dependency caches
+*.log
+node_modules/
+

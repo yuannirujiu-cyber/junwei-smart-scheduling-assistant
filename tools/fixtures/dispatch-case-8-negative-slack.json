@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "id": "dispatch-case-8",
+    "name": "§11-8 初始负余量：AFTER_URGENT 落位并标红，DEFER 暂缓不派单",
+    "source": [
+      "《三工序排产算法设计》§11 小规模测试的最小虚构夹具"
+    ],
+    "generatedAt": "2026-01-01T00:00:00",
+    "orderCount": 2,
+    "note": "K8-Z 交期 01:40、初始余量 S=100−642=−542 min（负余量）；K8-N 交期宽松但物料 03:20 才齐套。同一夹具用 negativeMode=AFTER_URGENT / DEFER 各跑一次：前者把 K8-Z 排在 D01 并标记延期风险，后者把它暂缓进异常输出。 机台初始状态（free_time / current_family）由 tools/check_dispatch.mjs 用 orderId=「__BG__」的预置锁定任务设置，见 §2.2 的设备字段定义。",
+    "issues": []
+  },
+  "orders": [
+    {
+      "id": "K8-Z",
+      "productName": "光面圆股钢丝绳",
+      "spec": "12mm 6*7+FC",
+      "qtyMeters": 60,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-01-05",
+      "preShipDate": "2026-01-05T01:40",
+      "endCode": "未结束",
+      "priority": "普通",
+      "duePolicy": "hard",
+      "graceHours": 0,
+      "processMap": {
+        "closingSpec": "12mm 6*7+FC",
+        "closingName": "光面圆股钢丝绳",
+        "strandName": "光面股0040 1*7 B1",
+        "strandSpec": "0.40",
+        "wireSpecMm": 0.4,
+        "status": "confirmed"
+      }
+    },
+    {
+      "id": "K8-N",
+      "productName": "光面圆股钢丝绳",
+      "spec": "12mm 6*7+FC",
+      "qtyMeters": 60,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-01-05",
+      "preShipDate": "2026-01-07T02:00",
+      "endCode": "未结束",
+      "priority": "普通",
+      "duePolicy": "hard",
+      "graceHours": 0,
+      "materialReadyAt": "2026-01-05T03:20",
+      "processMap": {
+        "closingSpec": "12mm 6*7+FC",
+        "closingName": "光面圆股钢丝绳",
+        "strandName": "光面股0050 1*7 B1",
+        "strandSpec": "0.50",
+        "wireSpecMm": 0.5,
+        "status": "confirmed"
+      }
+    }
+  ],
+  "machines": {
+    "drawing": [
+      {
+        "id": "D01",
+        "name": "D01拉丝机",
+        "type": "湿拉机",
+        "specRangeRaw": "0.2-0.8",
+        "specMin": 0.2,
+        "specMax": 0.8,
+        "speedMps": 0.1
+      }
+    ],
+    "stranding": [
+      {
+        "id": "S01",
+        "name": "S01捻股机"
+      }
+    ],
+    "closing": [
+      {
+        "id": "C01",
+        "name": "C01合绳机"
+      }
+    ]
+  },
+  "capacity": {
+    "stranding": {
+      "model": "显式额定",
+      "unit": "米/分",
+      "machineIds": [
+        "S01"
+      ],
+      "coefficients": [
+        1
+      ],
+      "rows": [
+        {
+          "name": "光面股0040 1*7 B1",
+          "spec": "0.40",
+          "torsion": 10,
+          "rates": [
+            10
+          ]
+        },
+        {
+          "name": "光面股0050 1*7 B1",
+          "spec": "0.50",
+          "torsion": 10,
+          "rates": [
+            10
+          ]
+        }
+      ]
+    },
+    "closing": {
+      "model": "显式额定",
+      "unit": "米/分",
+      "machineIds": [
+        "C01"
+      ],
+      "rows": [
+        {
+          "name": "光面圆股钢丝绳",
+          "spec": "12mm 6*7+FC",
+          "rates": [
+            10
+          ]
+        }
+      ]
+    }
+  },
+  "specIndex": {
+    "closingKeys": [
+      "12|6*7+FC"
+    ],
+    "orderMatchStats": {
+      "total": 2,
+      "matched": 2,
+      "multi": 0,
+      "missing": 0
+    }
+  }
+}

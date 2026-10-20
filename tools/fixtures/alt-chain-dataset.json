@@ -1,0 +1,469 @@
+{
+  "meta": {
+    "id": "alt-chain-demo",
+    "name": "替代工艺链演示数据（4 工序：拉丝 → 捻股 → 合绳 → 涂塑，全部虚构）",
+    "source": [
+      "虚构演示数据，用于证明引擎支持任意工序数；订单号 ALT- 前缀"
+    ],
+    "generatedAt": "2026-10-01T00:00:00",
+    "orderCount": 5,
+    "note": "工艺链定义在 dataset.processChain；把前两道工序通过 options.processChain 注入即可得到 2 工序场景",
+    "issues": [
+      "演示数据：产能、换型、数量系数均为自建合理值，非真实额定"
+    ]
+  },
+  "processChain": [
+    {
+      "key": "wireDraw",
+      "name": "拉丝",
+      "short": "拉",
+      "machinePrefixes": [
+        "71"
+      ],
+      "capability": {
+        "kind": "specRange",
+        "specField": "specMm",
+        "minField": "specMin",
+        "maxField": "specMax",
+        "speedField": "speedMps"
+      },
+      "changeover": {
+        "dims": [
+          {
+            "field": "wireSpec",
+            "label": "原料规格",
+            "unit": "mm",
+            "numeric": true
+          },
+          {
+            "field": "outDia",
+            "label": "成品绳径",
+            "unit": "mm",
+            "numeric": true
+          }
+        ]
+      },
+      "qty": {
+        "from": "strandTwist",
+        "by": "wireCount",
+        "factorModel": "drawShrink"
+      },
+      "desc": "把盘条拉成规定直径的钢丝（第一道工序）"
+    },
+    {
+      "key": "strandTwist",
+      "name": "捻股",
+      "short": "捻",
+      "machinePrefixes": [
+        "72"
+      ],
+      "capability": {
+        "kind": "matrix",
+        "matrix": "strandTwist"
+      },
+      "changeover": {
+        "dims": [
+          {
+            "field": "structure",
+            "label": "结构"
+          },
+          {
+            "field": "diameter",
+            "label": "股径",
+            "unit": "mm",
+            "numeric": true
+          }
+        ]
+      },
+      "qty": {
+        "from": "ropeClose",
+        "by": "strandCount",
+        "factorModel": "strandShrink"
+      },
+      "desc": "把多根钢丝捻合成股"
+    },
+    {
+      "key": "ropeClose",
+      "name": "合绳",
+      "short": "合",
+      "machinePrefixes": [
+        "73"
+      ],
+      "capability": {
+        "kind": "matrix",
+        "matrix": "ropeClose"
+      },
+      "changeover": {
+        "dims": [
+          {
+            "field": "structure",
+            "label": "结构"
+          },
+          {
+            "field": "diameter",
+            "label": "绳径",
+            "unit": "mm",
+            "numeric": true
+          }
+        ]
+      },
+      "qty": {
+        "from": "coilWrap",
+        "factorModel": "closingFactor"
+      },
+      "desc": "把多股捻合成钢丝绳"
+    },
+    {
+      "key": "coilWrap",
+      "name": "涂塑",
+      "short": "涂",
+      "machinePrefixes": [
+        "74"
+      ],
+      "capability": {
+        "kind": "matrix",
+        "matrix": "coilWrap"
+      },
+      "changeover": {
+        "dims": [
+          {
+            "field": "structure",
+            "label": "结构"
+          },
+          {
+            "field": "diameter",
+            "label": "绳径",
+            "unit": "mm",
+            "numeric": true
+          }
+        ]
+      },
+      "qty": {
+        "from": null,
+        "factorModel": "closingFactor"
+      },
+      "desc": "成品涂塑/成卷（第四道工序，靠近交付端）"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ALT-2026-0001",
+      "productName": "光面圆股钢丝绳",
+      "spec": "12mm 6*19S+FC",
+      "coating": "绳涂油",
+      "qtyMeters": 1200,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-10-05",
+      "preShipDate": "2026-11-20",
+      "endCode": "未结束",
+      "priority": "重点客户",
+      "duePolicy": "hard",
+      "graceHours": 0,
+      "rush": false,
+      "processMap": {
+        "wireDraw": {
+          "specMm": 0.12
+        },
+        "strandTwist": {
+          "spec": "0.64",
+          "name": "光面股0064 1*7 B1"
+        },
+        "ropeClose": {
+          "spec": "12mm 6*19S+FC",
+          "name": "光面圆股钢丝绳"
+        },
+        "coilWrap": {
+          "spec": "12mm 6*19S+FC",
+          "name": "涂塑钢丝绳"
+        }
+      }
+    },
+    {
+      "id": "ALT-2026-0002",
+      "productName": "光面圆股钢丝绳",
+      "spec": "16mm 6*19S+FC",
+      "coating": "绳涂油",
+      "qtyMeters": 900,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-10-06",
+      "preShipDate": "2026-11-25",
+      "endCode": "未结束",
+      "priority": "普通",
+      "duePolicy": "soft",
+      "graceHours": 72,
+      "rush": false,
+      "processMap": {
+        "wireDraw": {
+          "specMm": 0.15
+        },
+        "strandTwist": {
+          "spec": "0.9",
+          "name": "光面股0090 1*19 B1"
+        },
+        "ropeClose": {
+          "spec": "16mm 6*19S+FC",
+          "name": "光面圆股钢丝绳"
+        },
+        "coilWrap": {
+          "spec": "16mm 6*19S+FC",
+          "name": "涂塑钢丝绳"
+        }
+      }
+    },
+    {
+      "id": "ALT-2026-0003",
+      "productName": "压实钢丝绳",
+      "spec": "20mm 6*36WS+IWRC",
+      "coating": "绳涂油",
+      "qtyMeters": 600,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-10-08",
+      "preShipDate": "2026-11-28",
+      "endCode": "未结束",
+      "priority": "重点订单",
+      "duePolicy": "hard",
+      "graceHours": 0,
+      "rush": false,
+      "processMap": {
+        "wireDraw": {
+          "specMm": 0.18
+        },
+        "strandTwist": {
+          "spec": "0.9",
+          "name": "光面股0090 1*19 B1"
+        },
+        "ropeClose": {
+          "spec": "20mm 6*36WS+IWRC",
+          "name": "光面圆股钢丝绳"
+        },
+        "coilWrap": {
+          "spec": "20mm 6*36WS+IWRC",
+          "name": "涂塑钢丝绳"
+        }
+      }
+    },
+    {
+      "id": "ALT-2026-0004",
+      "productName": "光面圆股钢丝绳",
+      "spec": "12mm 6*19S+FC",
+      "coating": "绳涂油",
+      "qtyMeters": 2000,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-10-09",
+      "preShipDate": "2026-11-12",
+      "endCode": "未结束",
+      "priority": "紧急",
+      "duePolicy": "hard",
+      "graceHours": 0,
+      "rush": true,
+      "processMap": {
+        "wireDraw": {
+          "specMm": 0.12
+        },
+        "strandTwist": {
+          "spec": "0.64",
+          "name": "光面股0064 1*7 B1"
+        },
+        "ropeClose": {
+          "spec": "12mm 6*19S+FC",
+          "name": "光面圆股钢丝绳"
+        },
+        "coilWrap": {
+          "spec": "12mm 6*19S+FC",
+          "name": "涂塑钢丝绳"
+        }
+      }
+    },
+    {
+      "id": "ALT-2026-0005",
+      "productName": "压实钢丝绳",
+      "spec": "20mm 6*36WS+IWRC",
+      "coating": "绳涂油",
+      "qtyMeters": 400,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-10-12",
+      "preShipDate": "2026-12-05",
+      "endCode": "未结束",
+      "priority": "普通",
+      "duePolicy": "unknown",
+      "graceHours": 0,
+      "rush": false,
+      "processMap": {
+        "wireDraw": {
+          "specMm": 0.18
+        },
+        "strandTwist": {
+          "spec": "0.9",
+          "name": "光面股0090 1*19 B1"
+        },
+        "ropeClose": {
+          "spec": "20mm 6*36WS+IWRC",
+          "name": "光面圆股钢丝绳"
+        },
+        "coilWrap": {
+          "spec": "20mm 6*36WS+IWRC",
+          "name": "涂塑钢丝绳"
+        }
+      }
+    }
+  ],
+  "machines": {
+    "wireDraw": [
+      {
+        "id": "7101",
+        "name": "1号水箱拉丝机",
+        "type": "湿拉机",
+        "specRangeRaw": "0.08-0.30",
+        "specMin": 0.08,
+        "specMax": 0.3,
+        "speedMps": 8
+      },
+      {
+        "id": "7102",
+        "name": "2号水箱拉丝机",
+        "type": "湿拉机",
+        "specRangeRaw": "0.15-0.60",
+        "specMin": 0.15,
+        "specMax": 0.6,
+        "speedMps": 6
+      }
+    ],
+    "strandTwist": [
+      {
+        "id": "7201",
+        "name": "1号捻股机"
+      },
+      {
+        "id": "7202",
+        "name": "2号捻股机"
+      }
+    ],
+    "ropeClose": [
+      {
+        "id": "7301",
+        "name": "1号合绳机"
+      },
+      {
+        "id": "7302",
+        "name": "2号合绳机"
+      }
+    ],
+    "coilWrap": [
+      {
+        "id": "7401",
+        "name": "1号涂塑线"
+      },
+      {
+        "id": "7402",
+        "name": "2号涂塑线"
+      }
+    ]
+  },
+  "capacity": {
+    "strandTwist": {
+      "model": "值 = 行捻距均值 × 设备系数",
+      "unit": "米/分",
+      "machineIds": [
+        "7201",
+        "7202"
+      ],
+      "coefficients": [
+        1,
+        0.8
+      ],
+      "rows": [
+        {
+          "name": "光面股0064 1*7 B1",
+          "spec": "0.64",
+          "torsion": 20
+        },
+        {
+          "name": "光面股0090 1*19 B1",
+          "spec": "0.9",
+          "torsion": 15
+        }
+      ]
+    },
+    "ropeClose": {
+      "model": "显式额定（平均值）",
+      "unit": "米/分",
+      "machineIds": [
+        "7301",
+        "7302"
+      ],
+      "rows": [
+        {
+          "name": "光面圆股钢丝绳",
+          "spec": "12mm 6*19S+FC",
+          "rates": [
+            10,
+            8
+          ]
+        },
+        {
+          "name": "光面圆股钢丝绳",
+          "spec": "16mm 6*19S+FC",
+          "rates": [
+            7,
+            5
+          ]
+        },
+        {
+          "name": "压实钢丝绳",
+          "spec": "20mm 6*36WS+IWRC",
+          "rates": [
+            6,
+            null
+          ]
+        }
+      ]
+    },
+    "coilWrap": {
+      "model": "显式额定（平均值）",
+      "unit": "米/分",
+      "machineIds": [
+        "7401",
+        "7402"
+      ],
+      "rows": [
+        {
+          "name": "涂塑钢丝绳",
+          "spec": "12mm 6*19S+FC",
+          "rates": [
+            30,
+            25
+          ]
+        },
+        {
+          "name": "涂塑钢丝绳",
+          "spec": "16mm 6*19S+FC",
+          "rates": [
+            24,
+            20
+          ]
+        },
+        {
+          "name": "涂塑钢丝绳",
+          "spec": "20mm 6*36WS+IWRC",
+          "rates": [
+            20,
+            18
+          ]
+        }
+      ]
+    }
+  },
+  "specIndex": {
+    "closingKeys": [
+      "12|6*19S+FC",
+      "16|6*19S+FC",
+      "20|6*36WS+IWRC"
+    ],
+    "orderMatchStats": {
+      "total": 5,
+      "matched": 5,
+      "multi": 0,
+      "missing": 0
+    }
+  }
+}

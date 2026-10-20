@@ -1,0 +1,21 @@
+# 构建上下文只保留镜像运行所需：web/ + data/ + tools/serve.mjs
+# 其余（自检脚本、文档、截图、审查报告、临时文件）一律不进上下文
+*
+!web
+!data
+!tools
+tools/*
+!tools/serve.mjs
+!Dockerfile
+!docker-compose.yml
+
+# 明确排除：版本控制、依赖目录、日志与本地环境
+.git
+.gitignore
+node_modules
+**/node_modules
+**/*.log
+**/.DS_Store
+docs
+*.md
+data/README.md

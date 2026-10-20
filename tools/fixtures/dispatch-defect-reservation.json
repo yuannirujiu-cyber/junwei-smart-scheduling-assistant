@@ -1,0 +1,173 @@
+{
+  "meta": {
+    "id": "dispatch-defect-reservation",
+    "name": "已知缺陷复现夹具：预约被抢占 / 该预约的订单根本没被预约（捻股）",
+    "source": [
+      "用于 tools/check_dispatch.mjs 第 D 节「已知缺陷复现」，非 §11 场景"
+    ],
+    "generatedAt": "2026-01-01T00:00:00",
+    "orderCount": 3,
+    "note": "S01 对 RD 的股规格很慢（2 米/分），S02 很快（20 米/分）且已配置为 RD 的规格。RD 交期 03:20：等 S02（01:00 开工、01:18 完工、预计 01:18+66min ≤ 交期）本可准时；实际被 S01 抢去做成 01:18–04:18，延期 124 min。把 RD 交期放宽到 06:40 则改为「预约 1 次但 0 次兑现」。机台初始状态由 check_dispatch.mjs 用 orderId=「__BG__」的锁定任务设置。",
+    "issues": []
+  },
+  "orders": [
+    {
+      "id": "RD",
+      "productName": "光面圆股钢丝绳",
+      "spec": "12mm 6*7+FC",
+      "qtyMeters": 60,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-01-05",
+      "preShipDate": "2026-01-05T03:20",
+      "endCode": "未结束",
+      "priority": "紧急",
+      "duePolicy": "hard",
+      "graceHours": 0,
+      "processMap": {
+        "closingSpec": "12mm 6*7+FC",
+        "closingName": "光面圆股钢丝绳",
+        "strandName": "光面股0060 1*7 B1",
+        "strandSpec": "0.60",
+        "wireSpecMm": 0.6,
+        "status": "confirmed"
+      }
+    },
+    {
+      "id": "RC",
+      "productName": "光面圆股钢丝绳",
+      "spec": "12mm 6*7+FC",
+      "qtyMeters": 60,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-01-05",
+      "preShipDate": "2026-01-05T16:40",
+      "endCode": "未结束",
+      "priority": "普通",
+      "duePolicy": "hard",
+      "graceHours": 0,
+      "processMap": {
+        "closingSpec": "12mm 6*7+FC",
+        "closingName": "光面圆股钢丝绳",
+        "strandName": "光面股0040 1*7 B1",
+        "strandSpec": "0.40",
+        "wireSpecMm": 0.4,
+        "status": "confirmed"
+      }
+    },
+    {
+      "id": "RBG",
+      "productName": "光面圆股钢丝绳",
+      "spec": "12mm 6*7+FC",
+      "qtyMeters": 60,
+      "qtyMetersUnit": "米",
+      "orderDate": "2026-01-05",
+      "preShipDate": "2026-01-20T00:00",
+      "endCode": "未结束",
+      "priority": "普通",
+      "duePolicy": "hard",
+      "graceHours": 0,
+      "processMap": {
+        "closingSpec": "12mm 6*7+FC",
+        "closingName": "光面圆股钢丝绳",
+        "strandName": "光面股0060 1*7 B1",
+        "strandSpec": "0.60",
+        "wireSpecMm": 0.6,
+        "status": "confirmed"
+      }
+    }
+  ],
+  "machines": {
+    "drawing": [
+      {
+        "id": "D01",
+        "name": "1号拉丝机",
+        "specMin": 0.1,
+        "specMax": 0.9,
+        "speedMps": 0.1
+      },
+      {
+        "id": "D02",
+        "name": "2号拉丝机",
+        "specMin": 0.1,
+        "specMax": 0.9,
+        "speedMps": 0.1
+      }
+    ],
+    "stranding": [
+      {
+        "id": "S01",
+        "name": "1号捻股机"
+      },
+      {
+        "id": "S02",
+        "name": "2号捻股机"
+      }
+    ],
+    "closing": [
+      {
+        "id": "C01",
+        "name": "1号合绳机"
+      }
+    ]
+  },
+  "capacity": {
+    "stranding": {
+      "model": "显式额定",
+      "unit": "米/分",
+      "machineIds": [
+        "S01",
+        "S02"
+      ],
+      "coefficients": [
+        1,
+        1
+      ],
+      "rows": [
+        {
+          "name": "光面股0040 1*7 B1",
+          "spec": "0.40",
+          "torsion": 20,
+          "rates": [
+            20,
+            20
+          ]
+        },
+        {
+          "name": "光面股0060 1*7 B1",
+          "spec": "0.60",
+          "torsion": 20,
+          "rates": [
+            2,
+            20
+          ]
+        }
+      ]
+    },
+    "closing": {
+      "model": "显式额定",
+      "unit": "米/分",
+      "machineIds": [
+        "C01"
+      ],
+      "rows": [
+        {
+          "name": "光面圆股钢丝绳",
+          "spec": "12mm 6*7+FC",
+          "rates": [
+            10
+          ]
+        }
+      ]
+    }
+  },
+  "specIndex": {
+    "closingKeys": [
+      "12|6*7+FC"
+    ],
+    "orderMatchStats": {
+      "total": 3,
+      "matched": 3,
+      "multi": 0,
+      "missing": 0
+    }
+  }
+}

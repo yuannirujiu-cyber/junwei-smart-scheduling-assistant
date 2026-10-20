@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>君威智能排产助手 · 生产计划工作台</title>
+<meta name="description" content="钢绳索具工厂多工序智能排产工作台：订单到机台的可解释排程、人工干预闭环与异常重排。" />
+<link rel="stylesheet" href="./assets/app.css" />
+</head>
+<body>
+  <!-- 跳过导航：键盘用户按 Tab 的第一站，聚焦时从视口上方滑入（见 app.css .skip-link） -->
+  <a class="skip-link" href="#view">跳到主内容</a>
+  <div class="app" id="app">
+    <aside class="sidebar" id="sidebar" aria-label="主导航"></aside>
+    <div class="main" id="main">
+      <header class="topbar" id="topbar"></header>
+      <!-- 主区域用 <main> 提供 main 地标，tabindex="-1" 让 skip link 能把焦点真正移进来 -->
+      <main class="view" id="view" tabindex="-1"></main>
+    </div>
+  </div>
+  <div id="drawer-root"></div>
+  <div id="modal-root"></div>
+  <!-- Toast 容器：礼貌播报；错误 Toast 自身带 role=alert（见 components/ui.js toastHost） -->
+  <div id="toast-root" class="toast-root" role="status" aria-live="polite" aria-atomic="true"></div>
+  <!-- 「计算中」阶段与用时的专用播报区（components/ui.js installSolveAnnouncer 写入） -->
+  <div id="live-root" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
