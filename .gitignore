@@ -10,4 +10,6 @@ Thumbs.db
 # Logs and dependency caches
 *.log
 node_modules/
+__pycache__/
+*.py[cod]
 
